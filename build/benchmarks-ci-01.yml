@@ -16,7 +16,6 @@ schedules:
     - main
 
 variables:
-  - template: job-variables.yml
   - name: session
     value: $(Build.BuildNumber)
   - name: buildId
@@ -27,6 +26,82 @@ variables:
     value: $[lt(format('{0:HH}', pipeline.startTime), 12)]
   - name: pm
     value: $[ge(format('{0:HH}', pipeline.startTime), 12)]
+  - name: plaintextJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml
+  - name: htmlJobs
+    value: -j https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/Benchmarks/benchmarks.html.json
+  - name: jsonJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml
+  - name: multiQueryJobs
+    value: -j https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/Benchmarks/benchmarks.multiquery.json
+  - name: basicApiJobs
+    value: --database MySql --jobs https://raw.githubusercontent.com/dotnet/aspnetcore/main/src/Mvc/benchmarkapps/BasicApi/benchmarks.json
+  - name: basicViewsJobs
+    value: --database MySql --jobs https://raw.githubusercontent.com/dotnet/aspnetcore/main/src/Mvc/benchmarkapps/BasicViews/benchmarks.json
+  - name: http2Jobs
+    value: --client-name H2Load -p Streams=70 --headers None
+  - name: blazorJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/blazor.benchmarks.yml
+  - name: plaintextPlatformJobs
+    value: -j https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/TechEmpower/PlatformBenchmarks/benchmarks.plaintext.json
+  - name: jsonPlatformJobs
+    value: -j https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/TechEmpower/PlatformBenchmarks/benchmarks.json.json
+  - name: htmlPlatformJobs
+    value: -j  https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/TechEmpower/PlatformBenchmarks/benchmarks.html.json
+  - name: blazorWasmJobs
+    value: --config https://raw.githubusercontent.com/dotnet/aspnetcore/main/src/Components/benchmarkapps/Wasm.Performance/benchmarks.compose.json
+  - name: mvcJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml
+  - name: crudApiJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.crudapi.yml
+  - name: crudApiCertJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.certapi.yml
+  - name: crudApiJwtJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.jwtapi.yml
+  - name: signalRJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/signalr.benchmarks.yml
+  - name: websocketJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/websocket.benchmarks.yml
+  - name: proxyJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml
+  - name: proxyGRPCJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.grpc.benchmarks.yml
+  - name: h2loadConnectionsCount
+    value: 28
+  - name: platformJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml
+  - name: databaseJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml
+  - name: antiforgeryJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/antiforgery.benchmarks.yml
+  - name: tlsJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml
+  - name: rejectionJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml
+  - name: goldilocksJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/goldilocks.benchmarks.yml
+  - name: monoJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/mono.benchmarks.yml --application.options.requiredOperatingSystem linux
+  - name: azureProfile
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/azure.profile.yml
+  - name: ciProfile
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml
+  - name: grpcJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/grpc.benchmarks.yml
+  - name: efcoreJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml
+  - name: buildJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/BuildPerformance/buildperformance.yml
+  - name: orchardJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/orchard.benchmarks.yml
+  - name: containerMatrixJobs
+    value: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/containers.benchmarks.yml
+  - name: minimalJobs
+    value: --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true
+  - name: blazorSsrJobs
+    value: --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/BlazorSSR/blazorssr.benchmarks.yml?raw=true
+  - name: razorPagesJobs
+    value: --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/RazorPages/razorpages.benchmarks.yml?raw=true
 
 jobs:
 

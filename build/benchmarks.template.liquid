@@ -17,7 +17,6 @@ schedules:
     - main
 
 variables:
-  - template: job-variables.yml
   - name: session
     value: $(Build.BuildNumber)
   - name: buildId
@@ -48,7 +47,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: {{queues[forloop.index0]}}
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) {%for p in job.profiles%}--profile {{p}} {% endfor %}"
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml {%for p in job.profiles%}--profile {{p}} {% endfor %}"
       
 {% endfor %}
 {%-assign previousGroup = group -%}
