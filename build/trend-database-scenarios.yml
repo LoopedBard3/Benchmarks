@@ -23,49 +23,49 @@ parameters:
 # Platform
 
   - displayName: Fortunes Platform
-    arguments: --scenario fortunes $(platformJobs) --property scenario=FortunesPlatform --property protocol=http
+    arguments: --scenario fortunes --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=FortunesPlatform --property protocol=http
   - displayName: Fortunes Platform EF
-    arguments: --scenario fortunes_ef $(platformJobs) --property scenario=FortunesPlatformEF --property protocol=http
+    arguments: --scenario fortunes_ef --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=FortunesPlatformEF --property protocol=http
   - displayName: Fortunes Platform Dapper
-    arguments: --scenario fortunes_dapper $(platformJobs) --property scenario=FortunesPlatformDapper --property protocol=http
+    arguments: --scenario fortunes_dapper --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=FortunesPlatformDapper --property protocol=http
   - displayName: Single Query Platform
-    arguments: --scenario single_query $(platformJobs) --property scenario=SingleQueryPlatform --property protocol=http
+    arguments: --scenario single_query --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=SingleQueryPlatform --property protocol=http
   - displayName: Multiple Queries Platform
-    arguments: --scenario multiple_queries $(platformJobs) --property scenario=MultipleQueriesPlatform --property protocol=http
+    arguments: --scenario multiple_queries --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=MultipleQueriesPlatform --property protocol=http
   - displayName: Updates Platform
-    arguments: --scenario updates $(platformJobs) --property scenario=UpdatesPlatform --property protocol=http --variable duration=30
+    arguments: --scenario updates --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=UpdatesPlatform --property protocol=http --variable duration=30
   - displayName: Caching Platform
-    arguments: --scenario caching $(platformJobs) --property scenario=CachingPlatform --property protocol=http
+    arguments: --scenario caching --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=CachingPlatform --property protocol=http
 
 # Middleware
 
   - displayName: Fortunes
-    arguments: --scenario fortunes $(databaseJobs) --property scenario=Fortunes --property protocol=http
+    arguments: --scenario fortunes --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml --property scenario=Fortunes --property protocol=http
   - displayName: Fortunes EF
-    arguments: --scenario fortunes_ef $(databaseJobs) --property scenario=FortunesEf --property protocol=http
+    arguments: --scenario fortunes_ef --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml --property scenario=FortunesEf --property protocol=http
   - displayName: Fortunes Dapper
-    arguments: --scenario fortunes_dapper $(databaseJobs) --property scenario=FortunesDapper --property protocol=http
+    arguments: --scenario fortunes_dapper --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml --property scenario=FortunesDapper --property protocol=http
 
 # Minimal APIS
 
   - displayName: Fortunes Minimal APIs
-    arguments: --scenario fortunes $(minimalJobs) --property scenario=FortunesMinimalApis --property protocol=http
+    arguments: --scenario fortunes --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --property scenario=FortunesMinimalApis --property protocol=http
   - displayName: Single Query Minimal APIs
-    arguments: --scenario single_query $(minimalJobs) --property scenario=SingleQueryMinimalApis --property protocol=http
+    arguments: --scenario single_query --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --property scenario=SingleQueryMinimalApis --property protocol=http
   - displayName: Multiple Queries Minimal APIs
-    arguments: --scenario multiple_queries $(minimalJobs) --property scenario=MultipleQueriesMinimalApis --property protocol=http
+    arguments: --scenario multiple_queries --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --property scenario=MultipleQueriesMinimalApis --property protocol=http
   - displayName: Updates Minimal APIs
-    arguments: --scenario updates $(minimalJobs) --property scenario=UpdatesMinimalApis --property protocol=http --variable duration=30
+    arguments: --scenario updates --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --property scenario=UpdatesMinimalApis --property protocol=http --variable duration=30
 
 # Blazor
 
   - displayName: Fortunes Blazor SSR
-    arguments: --scenario fortunes $(blazorSsrJobs) --property scenario=FortunesBlazorSsr --property protocol=http
+    arguments: --scenario fortunes --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/BlazorSSR/blazorssr.benchmarks.yml?raw=true --property scenario=FortunesBlazorSsr --property protocol=http
 
 # Razor Pages
 
   - displayName: Fortunes Razor Pages
-    arguments: --scenario fortunes $(razorPagesJobs) --property scenario=FortunesRazorPages --property protocol=http
+    arguments: --scenario fortunes --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/RazorPages/razorpages.benchmarks.yml?raw=true --property scenario=FortunesRazorPages --property protocol=http
 
 steps:
 - ${{ each s in parameters.scenarios }}:
@@ -84,5 +84,5 @@ steps:
           "name": "crank",
           "condition": "(${{ parameters.condition }})",
           "retries": 1,
-          "args": [ "${{ s.arguments }} $(azureProfile) --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/steadystate.profile.yml --application.framework net10.0 ${{ parameters.arguments }} --application.options.collectCounters true --application.collectDependencies true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table TrendBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
+          "args": [ "${{ s.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/azure.profile.yml --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/steadystate.profile.yml --application.framework net10.0 ${{ parameters.arguments }} --application.options.collectCounters true --application.collectDependencies true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table TrendBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
         }

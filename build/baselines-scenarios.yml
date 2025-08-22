@@ -35,36 +35,35 @@ parameters:
 - name: scenarios 
   type: object
   default: 
+    # Platform
+    - displayName: Plaintext Platform
+      arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --load.connections 1024 --property scenario=PlaintextPlatform
 
-  # Platform
-  - displayName: Plaintext Platform
-    arguments: --scenario plaintext $(platformJobs) --load.connections 1024 --property scenario=PlaintextPlatform
+    - displayName: Json Platform
+      arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --load.connections 512 --property scenario=JsonPlatform
 
-  - displayName: Json Platform
-    arguments: --scenario json $(platformJobs) --load.connections 512 --property scenario=JsonPlatform
+    # Plaintext
+    - displayName: Plaintext Minimal Apis
+      arguments: --scenario plaintext --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --load.connections 1024 --property scenario=Plaintext
 
-  # Plaintext
-  - displayName: Plaintext Minimal Apis
-    arguments: --scenario plaintext $(minimalJobs) --load.connections 1024 --property scenario=Plaintext
+    # JSon
+    - displayName: Json Minimal Apis
+      arguments: --scenario json --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --load.connections 512 --property scenario=Json
 
-  # JSon
-  - displayName: Json Minimal Apis
-    arguments: --scenario json $(minimalJobs) --load.connections 512 --property scenario=Json
+    - displayName: Json Mvc
+      arguments: --scenario mvc --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonMvc
 
-  - displayName: Json Mvc
-    arguments: --scenario mvc $(jsonJobs) --property scenario=JsonMvc
-  
-  # Https
-  - displayName: Plaintext Https
-    arguments: --scenario https $(plaintextJobs) --property scenario=PlaintextHttps
+    # Https
+    - displayName: Plaintext Https
+      arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextHttps
 
-  - displayName: Json Https
-    arguments: --scenario https $(jsonJobs) --property scenario=JsonHttps
+    - displayName: Json Https
+      arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonHttps
 
-  # Orchard Core
+    # Orchard Core
 
-  - displayName: Orchard - About - Sqlite
-    arguments: --scenario about-sqlite $(orchardJobs) --property scenario=OrchardAboutSqlite --property protocol=http
+    - displayName: Orchard - About - Sqlite
+      arguments: --scenario about-sqlite --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/orchard.benchmarks.yml --property scenario=OrchardAboutSqlite --property protocol=http
   
 steps:
 - ${{ each s in parameters.scenarios }}:
@@ -84,5 +83,5 @@ steps:
             "name": "crank",
             "condition": "(${{ parameters.condition }})",
             "retries": 1,
-            "args": [ "${{ s.arguments }} ${{ b.arguments }} ${{ parameters.arguments }} $(azureProfile) --load.options.reuseBuild true --no-metadata --no-measurements --session $(session) --command-line-property --table BaselineBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
+            "args": [ "${{ s.arguments }} ${{ b.arguments }} ${{ parameters.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/azure.profile.yml --load.options.reuseBuild true --no-metadata --no-measurements --session $(session) --command-line-property --table BaselineBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
           }

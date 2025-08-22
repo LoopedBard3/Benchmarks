@@ -23,20 +23,20 @@ parameters:
   default:
   
   - displayName: Blazor Wasm
-    arguments: --scenario blazorwasmbenchmark $(blazorWasmJobs) --application.options.requiredOperatingSystem Linux
+    arguments: --scenario blazorwasmbenchmark --config https://raw.githubusercontent.com/dotnet/aspnetcore/main/src/Components/benchmarkapps/Wasm.Performance/benchmarks.compose.json --application.options.requiredOperatingSystem Linux
 
 - name: lighthouseScenarios
   type: object
   default:
   
   - displayName: Blazor Web (Server)
-    arguments: --scenario blazorWebInteractiveServer $(blazorJobs) --property interactivity=Server --property template=Blazor
+    arguments: --scenario blazorWebInteractiveServer --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/blazor.benchmarks.yml --property interactivity=Server --property template=Blazor
 
   - displayName: Blazor Web (WebAssembly)
-    arguments: --scenario blazorWebInteractiveWebAssembly $(blazorJobs) --property interactivity=WebAssembly --property template=Blazor
+    arguments: --scenario blazorWebInteractiveWebAssembly --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/blazor.benchmarks.yml --property interactivity=WebAssembly --property template=Blazor
 
   - displayName: Blazor Web (Auto)
-    arguments: --scenario blazorWebInteractiveAuto $(blazorJobs) --property interactivity=Auto --property template=Blazor
+    arguments: --scenario blazorWebInteractiveAuto --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/blazor.benchmarks.yml --property interactivity=Auto --property template=Blazor
 
 steps:
 - ${{ each s in parameters.scenarios }}:

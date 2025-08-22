@@ -21,14 +21,14 @@ parameters:
   type: object
   default: 
   - displayName: Yarp
-    arguments: --scenario proxy-yarp $(proxyJobs) --property proxy=yarp-pgo --application.framework net10.0 --application.environmentVariables DOTNET_TieredPGO=1 --application.environmentVariables DOTNET_ReadyToRun=0 --application.environmentVariables DOTNET_TC_QuickJitForLoops=1
+    arguments: --scenario proxy-yarp --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=yarp-pgo --application.framework net10.0 --application.environmentVariables DOTNET_TieredPGO=1 --application.environmentVariables DOTNET_ReadyToRun=0 --application.environmentVariables DOTNET_TC_QuickJitForLoops=1
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true
     supportsDownstreamHttp2: true
     condition: 'true'
   - displayName: Envoy
-    arguments: --scenario proxy-envoy $(proxyJobs) --property proxy=envoy
+    arguments: --scenario proxy-envoy --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=envoy
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true

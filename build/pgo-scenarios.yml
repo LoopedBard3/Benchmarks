@@ -23,32 +23,32 @@ parameters:
 # Platform
 
   - displayName: Plaintext Platform
-    arguments: --scenario plaintext $(platformJobs) --property scenario=PlaintextPlatform --property protocol=http
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=PlaintextPlatform --property protocol=http
   - displayName: Json Platform
-    arguments: --scenario json $(platformJobs) --property scenario=JsonPlatform --property protocol=http
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=JsonPlatform --property protocol=http
 
 # Plaintext
 
   - displayName: Plaintext
-    arguments: --scenario plaintext $(plaintextJobs) --property scenario=Plaintext --property protocol=http
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=Plaintext --property protocol=http
   - displayName: Plaintext Mvc
-    arguments: --scenario mvc $(plaintextJobs) --property scenario=PlaintextMvc --property protocol=http
+    arguments: --scenario mvc --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextMvc --property protocol=http
 
 # Json
 
   - displayName: Json
-    arguments: --scenario json $(jsonJobs) --property scenario=Json --property protocol=http
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=Json --property protocol=http
   - displayName: Json Https
-    arguments: --scenario https $(jsonJobs) --property scenario=JsonHttps --property protocol=https
+    arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonHttps --property protocol=https
   - displayName: Json Mvc
-    arguments: --scenario mvc $(jsonJobs) --property scenario=JsonMvc --property protocol=http
+    arguments: --scenario mvc --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonMvc --property protocol=http
 
 # Fortunes
 
   - displayName: Fortunes
-    arguments: --scenario fortunes $(databaseJobs) --property scenario=Fortunes --property protocol=http
+    arguments: --scenario fortunes --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml --property scenario=Fortunes --property protocol=http
   - displayName: Fortunes EF
-    arguments: --scenario fortunes_ef $(databaseJobs) --property scenario=FortunesEf --property protocol=http
+    arguments: --scenario fortunes_ef --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml --property scenario=FortunesEf --property protocol=http
 
 # PGO modes
 - name: modes
@@ -85,5 +85,5 @@ steps:
           {
             "name": "crank",
             "condition": "(${{ parameters.condition }}) && (Math.round(Date.now() / 43200000) % 3 == 0)",
-            "args": [ "${{ s.arguments }} ${{ m.arguments }} $(azureProfile) ${{ parameters.arguments }} --application.framework net10.0 --application.options.collectCounters true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} ${{ m.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table PgoBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
+            "args": [ "${{ s.arguments }} ${{ m.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/azure.profile.yml ${{ parameters.arguments }} --application.framework net10.0 --application.options.collectCounters true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} ${{ m.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table PgoBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
           }

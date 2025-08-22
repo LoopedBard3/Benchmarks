@@ -25,33 +25,33 @@ parameters:
 # List of scenarios
 
     - displayName: AddDataVariations
-      arguments: $(efcoreJobs) --scenario AddDataVariations
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario AddDataVariations
     - displayName: ChildVariations
-      arguments: $(efcoreJobs) --scenario ChildVariations
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario ChildVariations
     - displayName: Delete
-      arguments: $(efcoreJobs) --scenario Delete
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario Delete
     - displayName: ExistingDataVariations
-      arguments: $(efcoreJobs) --scenario ExistingDataVariations
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario ExistingDataVariations
     - displayName: Funcletization
-      arguments: $(efcoreJobs) --scenario Funcletization
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario Funcletization
     - displayName: Initialization
-      arguments: $(efcoreJobs) --scenario Initialization
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario Initialization
     - displayName: Insert
-      arguments: $(efcoreJobs) --scenario Insert
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario Insert
     - displayName: Mixed
-      arguments: $(efcoreJobs) --scenario Mixed
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario Mixed
     - displayName: ParentVariations
-      arguments: $(efcoreJobs) --scenario ParentVariations
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario ParentVariations
     - displayName: RawSqlQuery
-      arguments: $(efcoreJobs) --scenario RawSqlQuery
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario RawSqlQuery
     - displayName: SimpleQuery
-      arguments: $(efcoreJobs) --scenario SimpleQuery
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario SimpleQuery
     - displayName: NavigationsQuery
-      arguments: $(efcoreJobs) --scenario NavigationsQuery
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario NavigationsQuery
     - displayName: QueryCompilation
-      arguments: $(efcoreJobs) --scenario QueryCompilation
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario QueryCompilation
     - displayName: Update
-      arguments: $(efcoreJobs) --scenario Update
+      arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/efcore.benchmarks.yml --scenario Update
 
 steps:
 - ${{ each s in parameters.scenarios }}:

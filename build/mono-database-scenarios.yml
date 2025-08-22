@@ -21,9 +21,9 @@ parameters:
   default:
 
   - displayName: Fortunes Platform
-    arguments: --scenario fortunes $(platformJobs) --property scenario=FortunesPlatform
+    arguments: --scenario fortunes --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=FortunesPlatform
   - displayName: Fortunes
-    arguments: --scenario fortunes $(databaseJobs) --property scenario=Fortunes
+    arguments: --scenario fortunes --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/database.benchmarks.yml --property scenario=Fortunes
 
 # Runtimes
 - name: runtimes

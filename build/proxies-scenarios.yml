@@ -23,7 +23,7 @@ parameters:
   default: 
   - displayName: YARP
     scenario: proxy-yarp
-    arguments: $(proxyJobs) --property proxy=yarp --application.framework net10.0
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=yarp --application.framework net10.0
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true
@@ -31,12 +31,12 @@ parameters:
     condition: 'true'
   - displayName: YARP gRPC
     scenario: proxy-yarp-grpc
-    arguments: $(proxyGRPCJobs) --property proxy=yarp --application.framework net10.0
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.grpc.benchmarks.yml --property proxy=yarp --application.framework net10.0
     supportsGRPC: true
     condition: 'true'
   - displayName: YARP-net80
     scenario: proxy-yarp
-    arguments: $(proxyJobs) --property proxy=yarp-net80 --application.framework net8.0 --application.noGlobalJson true
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=yarp-net80 --application.framework net8.0 --application.noGlobalJson true
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true
@@ -44,7 +44,7 @@ parameters:
     condition: Math.round(Date.now() / 43200000) % 4 == 0 # once every 4 half-days
   - displayName: HttpClient
     scenario: proxy-httpclient
-    arguments: $(proxyJobs) --property proxy=httpclient --application.framework net10.0
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=httpclient --application.framework net10.0
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true
@@ -52,24 +52,24 @@ parameters:
     condition: Math.round(Date.now() / 43200000) % 4 == 2 # once every 4 half-days
   - displayName: NGinx
     scenario: proxy-nginx
-    arguments: $(proxyJobs) --property proxy=nginx --variable warmup=0
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=nginx --variable warmup=0
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true
     condition: Math.round(Date.now() / 43200000) % 5 == 0 # once every 5 half-days
   - displayName: NGinx gRPC
     scenario: proxy-nginx-grpc
-    arguments: $(proxyGRPCJobs) --property proxy=nginx --variable warmup=0
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.grpc.benchmarks.yml --property proxy=nginx --variable warmup=0
     supportsGRPC: true
     condition: Math.round(Date.now() / 43200000) % 5 == 1 # once every 5 half-days
   - displayName: HAProxy
     scenario: proxy-haproxy
-    arguments: $(proxyJobs) --property proxy=haproxy
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=haproxy
     supportsHttp: true
     condition: Math.round(Date.now() / 43200000) % 5 == 2 # once every 5 half-days
   - displayName: Envoy
     scenario: proxy-envoy
-    arguments: $(proxyJobs) --property proxy=envoy
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.benchmarks.yml --property proxy=envoy
     supportsHttp: true
     supportsServerHttps: true
     supportsServerHttp2: true
@@ -77,7 +77,7 @@ parameters:
     condition: Math.round(Date.now() / 43200000) % 5 == 3 # once every 5 half-days
   - displayName: Envoy gRPC
     scenario: proxy-envoy-grpc
-    arguments: $(proxyGRPCJobs) --property proxy=envoy
+    arguments: --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/proxy.grpc.benchmarks.yml --property proxy=envoy
     supportsGRPC: true
     condition: Math.round(Date.now() / 43200000) % 5 == 4 # once every 5 half-days
 

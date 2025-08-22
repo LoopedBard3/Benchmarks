@@ -21,9 +21,9 @@ parameters:
   default:
 
   - displayName: Json Platform
-    arguments: --scenario json $(platformJobs) --property scenario=JsonPlatform
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --property scenario=JsonPlatform
   - displayName: Plaintext
-    arguments: --scenario plaintext $(plaintextJobs) --property scenario=Plaintext
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=Plaintext
 
 # Options
 - name: modes

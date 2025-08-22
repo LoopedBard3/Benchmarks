@@ -21,63 +21,62 @@ parameters:
 - name: scenarios
   type: object
   default:
-  # JSON
-  - displayName: Json Mvc
-    arguments: --scenario MvcJson $(mvcJobs) --property scenario=MvcJson
-  - displayName: Json Mvc (2KB)
-    arguments: --scenario MvcJson2k $(mvcJobs) --property scenario=MvcJson2k
-  - displayName: Json Mvc Input (2KB)
-    arguments: --scenario MvcJsonInput2k $(mvcJobs) --property scenario=MvcJsonInput2k
-  - displayName: Json Mvc (60KB)
-    arguments: --scenario MvcJsonOutput60k $(mvcJobs) --property scenario=MvcJsonOutput60k
-  - displayName: Json Mvc Input (60KB)
-    arguments: --scenario MvcJsonInput60k $(mvcJobs) --property scenario=MvcJsonInput60k
-  - displayName: Json Mvc Input (2MB)
-    arguments: --scenario MvcJsonInput2M $(mvcJobs) --property scenario=MvcJsonInput2M
-  - displayName: Json Mvc (2MB)
-    arguments: --scenario MvcJsonOutput2M $(mvcJobs) --property scenario=MvcJsonOutput2M
-  - displayName: MapAction Echo Todo
-    arguments: --scenario MapActionEchoTodo $(mvcJobs) --property scenario=MapActionEchoTodo
+    # JSON
+    - displayName: Json Mvc
+      arguments: --scenario MvcJson --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJson
+    - displayName: Json Mvc (2KB)
+      arguments: --scenario MvcJson2k --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJson2k
+    - displayName: Json Mvc Input (2KB)
+      arguments: --scenario MvcJsonInput2k --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJsonInput2k
+    - displayName: Json Mvc (60KB)
+      arguments: --scenario MvcJsonOutput60k --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJsonOutput60k
+    - displayName: Json Mvc Input (60KB)
+      arguments: --scenario MvcJsonInput60k --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJsonInput60k
+    - displayName: Json Mvc Input (2MB)
+      arguments: --scenario MvcJsonInput2M --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJsonInput2M
+    - displayName: Json Mvc (2MB)
+      arguments: --scenario MvcJsonOutput2M --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MvcJsonOutput2M
+    - displayName: MapAction Echo Todo
+      arguments: --scenario MapActionEchoTodo --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MapActionEchoTodo
 
-  # Forms
-  - displayName: MapAction Echo Todo (Form)
-    arguments: --scenario MapActionEchoTodoForm $(mvcJobs) --property scenario=MapActionEchoTodoForm
+    # Forms
+    - displayName: MapAction Echo Todo (Form)
+      arguments: --scenario MapActionEchoTodoForm --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.mvcjson.yml --property scenario=MapActionEchoTodoForm
 
-  # CRUD API
-  - displayName: API return collection data
-    arguments: --scenario ApiCrudListProducts $(crudApiJobs) --property scenario=ApiCrudListProducts
-  - displayName: API return element details
-    arguments: --scenario ApiCrudGetProductDetails $(crudApiJobs) --property scenario=ApiCrudGetProductDetails
-  - displayName: API add new element
-    arguments: --scenario ApiCrudAddProduct $(crudApiJobs) --property scenario=ApiCrudAddProduct
-  - displayName: API update existing element
-    arguments: --scenario ApiCrudUpdateProduct $(crudApiJobs) --property scenario=ApiCrudUpdateProduct
-  - displayName: API remove existing element
-    arguments: --scenario ApiCrudDeleteProduct $(crudApiJobs) --property scenario=ApiCrudDeleteProduct
+    # CRUD API
+    - displayName: API return collection data
+      arguments: --scenario ApiCrudListProducts --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.crudapi.yml --property scenario=ApiCrudListProducts
+    - displayName: API return element details
+      arguments: --scenario ApiCrudGetProductDetails --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.crudapi.yml --property scenario=ApiCrudGetProductDetails
+    - displayName: API add new element
+      arguments: --scenario ApiCrudAddProduct --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.crudapi.yml --property scenario=ApiCrudAddProduct
+    - displayName: API update existing element
+      arguments: --scenario ApiCrudUpdateProduct --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.crudapi.yml --property scenario=ApiCrudUpdateProduct
+    - displayName: API remove existing element
+      arguments: --scenario ApiCrudDeleteProduct --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.crudapi.yml --property scenario=ApiCrudDeleteProduct
 
-  # CRUD API CERT AUTH
-  - displayName: API return collection data (CERT)
-    arguments: --scenario ApiCrudListProducts $(crudApiCertJobs) --property scenario=ApiCrudListProductsCertAuth
-  - displayName: plaintext (CERT)
-    arguments: --scenario NoMvcAuth $(crudApiCertJobs) --property scenario=PlaintextRawCert
+    # CRUD API CERT AUTH
+    - displayName: API return collection data (CERT)
+      arguments: --scenario ApiCrudListProducts --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.certapi.yml --property scenario=ApiCrudListProductsCertAuth
+    - displayName: plaintext (CERT)
+      arguments: --scenario NoMvcAuth --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.certapi.yml --property scenario=PlaintextRawCert
 
-  # CRUD API JWT AUTH
-  - displayName: API return collection data (JWT)
-    arguments: --scenario ApiCrudListProducts $(crudApiJwtJobs) --property scenario=ApiCrudListProductsJwtAuth
-  - displayName: plaintext (JWT)
-    arguments: --scenario NoMvcAuth $(crudApiJwtJobs) --property scenario=PlaintextRawJwt
-  - displayName: plaintext (JWT Asymmetric Key)
-    arguments: --scenario NoMvcAsymmetricAuth $(crudApiJwtJobs) --property scenario=PlaintextJwtAsymmetricKey
-  - displayName: plaintext (No Auth)
-    arguments: --scenario NoMvcNoAuth $(crudApiJwtJobs) --property scenario=PlaintextRawNoAuth
+    # CRUD API JWT AUTH
+    - displayName: API return collection data (JWT)
+      arguments: --scenario ApiCrudListProducts --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.jwtapi.yml --property scenario=ApiCrudListProductsJwtAuth
+    - displayName: plaintext (JWT)
+      arguments: --scenario NoMvcAuth --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.jwtapi.yml --property scenario=PlaintextRawJwt
+    - displayName: plaintext (JWT Asymmetric Key)
+      arguments: --scenario NoMvcAsymmetricAuth --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.jwtapi.yml --property scenario=PlaintextJwtAsymmetricKey
+    - displayName: plaintext (No Auth)
+      arguments: --scenario NoMvcNoAuth --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/Mvc/benchmarks.jwtapi.yml --property scenario=PlaintextRawNoAuth
 
-# Orchard Core
+    # Orchard Core
+    - displayName: Orchard - About - PostgresQL
+      arguments: --scenario about-postgresql --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/orchard.benchmarks.yml --property scenario=OrchardAboutPostgresQL --property protocol=http --application.noGlobalJson false
 
-  - displayName: Orchard - About - PostgresQL
-    arguments: --scenario about-postgresql $(orchardJobs) --property scenario=OrchardAboutPostgresQL --property protocol=http --application.noGlobalJson false
-
-  - displayName: Orchard - About - Sqlite
-    arguments: --scenario about-sqlite $(orchardJobs) --property scenario=OrchardAboutSqlite --property protocol=http --application.noGlobalJson false
+    - displayName: Orchard - About - Sqlite
+      arguments: --scenario about-sqlite --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/orchard.benchmarks.yml --property scenario=OrchardAboutSqlite --property protocol=http --application.noGlobalJson false
 
 steps:
   - ${{ each s in parameters.scenarios }}:
@@ -96,7 +95,7 @@ steps:
             "name": "crank",
             "condition": "(${{ parameters.condition }})",
             "retries": 1,
-            "args": [ "${{ s.arguments }} $(azureProfile) ${{ parameters.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/steadystate.profile.yml --application.framework net10.0 --application.options.collectCounters true --application.collectDependencies true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table MvcBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
+            "args": [ "${{ s.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/azure.profile.yml ${{ parameters.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/steadystate.profile.yml --application.framework net10.0 --application.options.collectCounters true --application.collectDependencies true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table MvcBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
           }
 
 

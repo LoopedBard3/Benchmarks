@@ -20,15 +20,15 @@ parameters:
   default:
 
   - displayName: "Build - BlazorWasm"
-    arguments: --scenario blazorwasm $(buildJobs) --property scenario=BlazorWasm 
+    arguments: --scenario blazorwasm --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/BuildPerformance/buildperformance.yml --property scenario=BlazorWasm 
   - displayName: "Build - BlazorWasm (Hosted)"
-    arguments: --scenario blazorwasm-hosted $(buildJobs) --property scenario=BlazorWasmHosted
+    arguments: --scenario blazorwasm-hosted --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/BuildPerformance/buildperformance.yml --property scenario=BlazorWasmHosted
   - displayName: "Build - BlazorServer"
-    arguments: --scenario blazorserver $(buildJobs) --property scenario=BlazorServer
+    arguments: --scenario blazorserver --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/BuildPerformance/buildperformance.yml --property scenario=BlazorServer
   - displayName: "Build - MVC"
-    arguments: --scenario mvc $(buildJobs) --property scenario=MVC
+    arguments: --scenario mvc --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/BuildPerformance/buildperformance.yml --property scenario=MVC
   - displayName: "Build - API"
-    arguments: --scenario api $(buildJobs) --property scenario=API
+    arguments: --scenario api --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/src/BenchmarksApps/BuildPerformance/buildperformance.yml --property scenario=API
 
 steps:
 - ${{ each s in parameters.scenarios }}:

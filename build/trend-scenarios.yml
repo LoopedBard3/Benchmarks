@@ -23,67 +23,67 @@ parameters:
 # Platform
 
   - displayName: Plaintext Platform
-    arguments: --scenario plaintext $(platformJobs) --load.connections 1024 --property scenario=PlaintextPlatform --property protocol=http
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --load.connections 1024 --property scenario=PlaintextPlatform --property protocol=http
   - displayName: Json Platform
-    arguments: --scenario json $(platformJobs) --load.connections 512 --property scenario=JsonPlatform --property protocol=http
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --load.connections 512 --property scenario=JsonPlatform --property protocol=http
   - displayName: Plaintext Platform Inline
-    arguments: --scenario plaintext $(platformJobs) --load.connections 1024 --application.environmentVariables DOTNET_SYSTEM_NET_SOCKETS_INLINE_COMPLETIONS=1 --property scenario=PlaintextPlatformInline --property protocol=http
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --load.connections 1024 --application.environmentVariables DOTNET_SYSTEM_NET_SOCKETS_INLINE_COMPLETIONS=1 --property scenario=PlaintextPlatformInline --property protocol=http
   - displayName: Json Platform Inline
-    arguments: --scenario json $(platformJobs) --load.connections 512 --application.environmentVariables DOTNET_SYSTEM_NET_SOCKETS_INLINE_COMPLETIONS=1 --property scenario=JsonPlatformInline --property protocol=http
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/platform.benchmarks.yml --load.connections 512 --application.environmentVariables DOTNET_SYSTEM_NET_SOCKETS_INLINE_COMPLETIONS=1 --property scenario=JsonPlatformInline --property protocol=http
 
 # Plaintext
 
   - displayName: Plaintext
-    arguments: --scenario plaintext $(plaintextJobs) --load.connections 1024 --property scenario=Plaintext --property protocol=http
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --load.connections 1024 --property scenario=Plaintext --property protocol=http
   - displayName: Plaintext Query String
-    arguments: --scenario plaintext $(plaintextJobs) --property scenario=PlaintextQueryString --property protocol=http --variable path=/plaintext?query1=lorem&query2=ipsum&query3=dolor%20est
+    arguments: --scenario plaintext --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextQueryString --property protocol=http --variable path=/plaintext?query1=lorem&query2=ipsum&query3=dolor%20est
   - displayName: Plaintext Mvc
-    arguments: --scenario mvc $(plaintextJobs) --property scenario=PlaintextMvc --property protocol=http
+    arguments: --scenario mvc --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextMvc --property protocol=http
   - displayName: Plaintext Minimal APIs
-    arguments: --scenario plaintext $(minimalJobs) --load.connections 1024 --property scenario=PlaintextMinimalApis --property protocol=http
+    arguments: --scenario plaintext --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --load.connections 1024 --property scenario=PlaintextMinimalApis --property protocol=http
   - displayName: Plaintext Endpoint
-    arguments: --scenario endpoint $(plaintextJobs) --property scenario=PlaintextEndpoint --property protocol=http
+    arguments: --scenario endpoint --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextEndpoint --property protocol=http
   - displayName: Plaintext (No Filters)
-    arguments: --scenario plainTextSansFilter $(plaintextJobs) --property scenario=PlaintextWithParametersNoFilter --property protocol=http
+    arguments: --scenario plainTextSansFilter --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextWithParametersNoFilter --property protocol=http
   - displayName: Plaintext (Empty Filters)
-    arguments: --scenario plainTextEmptyFilter $(plaintextJobs) --property scenario=PlaintextWithParametersEmptyFilter --property protocol=http
+    arguments: --scenario plainTextEmptyFilter --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextWithParametersEmptyFilter --property protocol=http
   - displayName: Plaintext (Empty Filters, No Parameters)
-    arguments: --scenario plainTextNoParamsEmptyFilter $(plaintextJobs) --property scenario=PlaintextNoParametersEmptyFilter --property protocol=http
+    arguments: --scenario plainTextNoParamsEmptyFilter --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextNoParametersEmptyFilter --property protocol=http
   - displayName: Plaintext (With Filters)
-    arguments: --scenario plainTextWithFilter $(plaintextJobs) --property scenario=PlaintextWithParameterstWithFilter --property protocol=http
+    arguments: --scenario plainTextWithFilter --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=PlaintextWithParameterstWithFilter --property protocol=http
   - displayName: Plaintext Connection Close
-    arguments: --scenario connectionclose $(plaintextJobs) --property scenario=ConnectionClose --property protocol=http --variable connections=32 --property connections=32 
+    arguments: --scenario connectionclose --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=ConnectionClose --property protocol=http --variable connections=32 --property connections=32 
   - displayName: Plaintext Connection Close Https
-    arguments: --scenario connectionclosehttps $(plaintextJobs) --property scenario=ConnectionCloseHttps --property protocol=https --variable connections=32 --property connections=32
+    arguments: --scenario connectionclosehttps --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=ConnectionCloseHttps --property protocol=https --variable connections=32 --property connections=32
   - displayName: Plaintext Connection Close HttpSys
-    arguments: --scenario connectionclose $(plaintextJobs) --property scenario=ConnectionCloseHttpSys --property protocol=http --variable connections=32 --property connections=32 --variable server=HttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario connectionclose --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=ConnectionCloseHttpSys --property protocol=http --variable connections=32 --property connections=32 --variable server=HttpSys --application.options.requiredOperatingSystem windows
   - displayName: Plaintext Connection Close Https HttpSys
-    arguments: --scenario connectionclosehttps $(plaintextJobs) --property scenario=ConnectionCloseHttpsHttpSys --property protocol=https --variable connections=32 --property connections=32 --variable server=HttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario connectionclosehttps --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/plaintext.benchmarks.yml --property scenario=ConnectionCloseHttpsHttpSys --property protocol=https --variable connections=32 --property connections=32 --variable server=HttpSys --application.options.requiredOperatingSystem windows
 
 # Json
 
   - displayName: Json
-    arguments: --scenario json $(jsonJobs) --load.connections 512 --property scenario=Json --property protocol=http
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --load.connections 512 --property scenario=Json --property protocol=http
   - displayName: Json HttpSys
-    arguments: --scenario json $(jsonJobs) --property protocol=http --property scenario=JsonHttpSys --variable server=HttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property protocol=http --property scenario=JsonHttpSys --variable server=HttpSys --application.options.requiredOperatingSystem windows
   - displayName: Json IIS InProc
-    arguments: --scenario json $(jsonJobs) --property protocol=http --property scenario=JsonIISInProc --variable server=IISInProcess --application.WebHost IISInProcess --application.options.requiredOperatingSystem windows
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property protocol=http --property scenario=JsonIISInProc --variable server=IISInProcess --application.WebHost IISInProcess --application.options.requiredOperatingSystem windows
   - displayName: Json IIS OutOfProc
-    arguments: --scenario json $(jsonJobs) --property protocol=http --property scenario=JsonIISOutOfProc --variable server=IISOutOfProcess --application.WebHost IISOutOfProcess --application.options.requiredOperatingSystem windows
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property protocol=http --property scenario=JsonIISOutOfProc --variable server=IISOutOfProcess --application.WebHost IISOutOfProcess --application.options.requiredOperatingSystem windows
   - displayName: Json Https
-    arguments: --scenario https $(jsonJobs) --property scenario=JsonHttps --property protocol=https
+    arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonHttps --property protocol=https
   - displayName: Json Https HttpSys
-    arguments: --scenario https $(jsonJobs) --property scenario=JsonHttpsHttpSys --property protocol=https --variable server=HttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonHttpsHttpSys --property protocol=https --variable server=HttpSys --application.options.requiredOperatingSystem windows
   - displayName: Json Https IIS InProc
-    arguments: --scenario https $(jsonJobs) --property protocol=https --property scenario=JsonHttpsIISInProc --variable server=IISInProcess --application.WebHost IISInProcess --application.options.requiredOperatingSystem windows
+    arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property protocol=https --property scenario=JsonHttpsIISInProc --variable server=IISInProcess --application.WebHost IISInProcess --application.options.requiredOperatingSystem windows
   - displayName: Json Https IIS OutOfProc
-    arguments: --scenario https $(jsonJobs) --property protocol=https --property scenario=JsonHttpsIISOutOfProc --variable server=IISOutOfProcess --application.WebHost IISOutOfProcess --application.options.requiredOperatingSystem windows
+    arguments: --scenario https --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property protocol=https --property scenario=JsonHttpsIISOutOfProc --variable server=IISOutOfProcess --application.WebHost IISOutOfProcess --application.options.requiredOperatingSystem windows
   - displayName: Json Crossgen2
-    arguments: --scenario json $(jsonJobs) --property scenario=JsonCrossgen2 --property protocol=http --application.buildArguments \"/p:PublishReadyToRun=true /p:PublishReadyToRunUseCrossgen2=true \" --application.options.requiredOperatingSystem windows
+    arguments: --scenario json --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonCrossgen2 --property protocol=http --application.buildArguments "/p:PublishReadyToRun=true /p:PublishReadyToRunUseCrossgen2=true " --application.options.requiredOperatingSystem windows
   - displayName: Json Mvc
-    arguments: --scenario mvc $(jsonJobs) --property scenario=JsonMvc --property protocol=http
+    arguments: --scenario mvc --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=JsonMvc --property protocol=http
   - displayName: Json Minimal APIs
-    arguments: --scenario json $(minimalJobs) --load.connections 512 --property scenario=JsonMinimalApis --property protocol=http
+    arguments: --scenario json --config https://github.com/aspnet/Benchmarks/blob/main/src/BenchmarksApps/TechEmpower/Minimal/minimal.benchmarks.yml?raw=true --load.connections 512 --property scenario=JsonMinimalApis --property protocol=http
   - displayName: Json 5M
     arguments: --scenario json_middleware --variable singleStringJsonSize=5000000 --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/json.benchmarks.yml --property scenario=Json5M
   - displayName: Json 400k
@@ -94,51 +94,51 @@ parameters:
 # Antiforgery
 
   - displayName: Antiforgery No Operation
-    arguments: --scenario antiforgery-noop $(antiforgeryJobs) --property scenario=AntiforgeryNoOp
+    arguments: --scenario antiforgery-noop --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/antiforgery.benchmarks.yml --property scenario=AntiforgeryNoOp
   - displayName: Antiforgery Token Validation
-    arguments: --scenario antiforgery-validation $(antiforgeryJobs) --property scenario=AntiforgeryTokenValidation
+    arguments: --scenario antiforgery-validation --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/antiforgery.benchmarks.yml --property scenario=AntiforgeryTokenValidation
   - displayName: Antiforgery Token Generation
-    arguments: --scenario antiforgery-generation $(antiforgeryJobs) --property scenario=AntiforgeryTokenGeneration
+    arguments: --scenario antiforgery-generation --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/antiforgery.benchmarks.yml --property scenario=AntiforgeryTokenGeneration
 
 # TLS
 
   - displayName: "HttpSys Windows: TLS Handshakes"
-    arguments: --scenario tls-handshakes-httpsys $(tlsJobs) --property scenario=HttpSysTLSHandshakes --application.options.requiredOperatingSystem windows
+    arguments: --scenario tls-handshakes-httpsys --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml --property scenario=HttpSysTLSHandshakes --application.options.requiredOperatingSystem windows
 
   - displayName: "HttpSys Windows: mTLS Handshakes"
-    arguments: --scenario mTls-handshakes-httpsys $(tlsJobs) --property scenario=HttpSysMutualTLSHandshakes --application.options.requiredOperatingSystem windows
+    arguments: --scenario mTls-handshakes-httpsys --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml --property scenario=HttpSysMutualTLSHandshakes --application.options.requiredOperatingSystem windows
 
   - displayName: "HttpSys Windows: TLS Renegotiation"
-    arguments: --scenario tls-renegotiation-httpsys $(tlsJobs) --property scenario=HttpSysTLSRenegotiation --application.options.requiredOperatingSystem windows
+    arguments: --scenario tls-renegotiation-httpsys --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml --property scenario=HttpSysTLSRenegotiation --application.options.requiredOperatingSystem windows
 
   - displayName: "Kestrel Linux: TLS Handshakes"
-    arguments: --scenario tls-handshakes-kestrel $(tlsJobs) --property scenario=KestrelTLSHandshakes --application.options.requiredOperatingSystem linux
+    arguments: --scenario tls-handshakes-kestrel --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml --property scenario=KestrelTLSHandshakes --application.options.requiredOperatingSystem linux
     
   - displayName: "Kestrel Linux: mTLS Handshakes"
-    arguments: --scenario mTls-handshakes-kestrel $(tlsJobs) --property scenario=KestrelMutualTLSHandshakes --application.options.requiredOperatingSystem linux
+    arguments: --scenario mTls-handshakes-kestrel --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml --property scenario=KestrelMutualTLSHandshakes --application.options.requiredOperatingSystem linux
 
   - displayName: "Kestrel Linux: TLS Renegotiation"
-    arguments: --scenario tls-renegotiation-kestrel $(tlsJobs) --property scenario=KestrelTLSRenegotiation --application.options.requiredOperatingSystem linux
+    arguments: --scenario tls-renegotiation-kestrel --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/tls.benchmarks.yml --property scenario=KestrelTLSRenegotiation --application.options.requiredOperatingSystem linux
 
 # Rejection
 
   - displayName: "HttpSys Windows: Encoded URL symbols"
-    arguments: --scenario httpsys-encoded-url $(rejectionJobs) --property scenario=RejectionEncodedUrlHttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario httpsys-encoded-url --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml --property scenario=RejectionEncodedUrlHttpSys --application.options.requiredOperatingSystem windows
 
   - displayName: "HttpSys Windows: Invalid Header"
-    arguments: --scenario httpsys-header-symbols $(rejectionJobs) --property scenario=RejectionInvalidHeaderHttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario httpsys-header-symbols --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml --property scenario=RejectionInvalidHeaderHttpSys --application.options.requiredOperatingSystem windows
 
   - displayName: "HttpSys Windows: Host Header Mismatch"
-    arguments: --scenario httpsys-hostheader-mismatch $(rejectionJobs) --property scenario=RejectionHostHeaderMismatchHttpSys --application.options.requiredOperatingSystem windows
+    arguments: --scenario httpsys-hostheader-mismatch --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml --property scenario=RejectionHostHeaderMismatchHttpSys --application.options.requiredOperatingSystem windows
 
   - displayName: "Kestrel Linux: Encoded URL symbols"
-    arguments: --scenario kestrel-encoded-url $(rejectionJobs) --property scenario=RejectionEncodedUrlKestrel
+    arguments: --scenario kestrel-encoded-url --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml --property scenario=RejectionEncodedUrlKestrel
 
   - displayName: "Kestrel Linux: Invalid Header"
-    arguments: --scenario kestrel-header-symbols $(rejectionJobs) --property scenario=RejectionInvalidHeaderKestrel
+    arguments: --scenario kestrel-header-symbols --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml --property scenario=RejectionInvalidHeaderKestrel
 
   - displayName: "Kestrel Linux: Host Header Mismatch"
-    arguments: --scenario kestrel-hostheader-mismatch $(rejectionJobs) --property scenario=RejectionHostHeaderMismatchKestrel
+    arguments: --scenario kestrel-hostheader-mismatch --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/rejection.benchmarks.yml --property scenario=RejectionHostHeaderMismatchKestrel
 
 steps:
 - ${{ each s in parameters.scenarios }}:
@@ -157,5 +157,5 @@ steps:
           "name": "crank",
           "condition": "(${{ parameters.condition }})",
           "retries": 1,
-          "args": [ "${{ s.arguments }} $(azureProfile) --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/steadystate.profile.yml --application.framework net10.0 --application.collectDependencies true ${{ parameters.arguments }} --application.options.collectCounters true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table TrendBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
+          "args": [ "${{ s.arguments }} --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/azure.profile.yml --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/steadystate.profile.yml --application.framework net10.0 --application.collectDependencies true ${{ parameters.arguments }} --application.options.collectCounters true --no-metadata --no-measurements --load.options.reuseBuild true --session $(session) --description \"${{ s.displayName }} $(System.JobDisplayName)\" --property buildId=\"$(buildId)\" --property buildNumber=\"$(buildNumber)\" --command-line-property --table TrendBenchmarks --sql SQL_CONNECTION_STRING --cert-tenant-id SQL_SERVER_TENANTID --cert-client-id SQL_SERVER_CLIENTID --cert-path SQL_SERVER_CERT_PATH --cert-sni --chart" ]
         }

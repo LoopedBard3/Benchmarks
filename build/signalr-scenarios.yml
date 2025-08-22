@@ -23,13 +23,13 @@ parameters:
   default: 
 
   - displayName: Broadcast
-    arguments: --scenario signalr $(signalRJobs) --variable scenario=broadcast --property scenario=broadcast
+    arguments: --scenario signalr --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/signalr.benchmarks.yml --variable scenario=broadcast --property scenario=broadcast
   - displayName: Echo
-    arguments: --scenario signalr $(signalRJobs) --variable scenario=echo --property scenario=echo
+    arguments: --scenario signalr --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/signalr.benchmarks.yml --variable scenario=echo --property scenario=echo
   - displayName: Echo All
-    arguments: --scenario signalr $(signalRJobs) --variable scenario=echoAll --property scenario=echoAll
+    arguments: --scenario signalr --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/signalr.benchmarks.yml --variable scenario=echoAll --property scenario=echoAll
 #  - displayName: Echo Idle
-#    arguments: --scenario signalr $(signalRJobs) --variable scenario=echoIdle --property scenario=echoIdle
+#    arguments: --scenario signalr --config https://raw.githubusercontent.com/aspnet/Benchmarks/main/scenarios/signalr.benchmarks.yml --variable scenario=echoIdle --property scenario=echoIdle
 
 # Transports
 - name: transports 
