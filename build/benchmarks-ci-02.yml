@@ -1,9 +1,8 @@
 # Do not change this file, it is generated using these steps:
-# - The file benchmarks*.json defines how each pipeline set of jobs is run in parallel
-# - Update the associated benchmarks*.json file with machine and scenario updates
-# - Install python and install the requirements for the crank-scheduler in benchmarks/scripts/crank-scheduler/requirements.txt
-# - Run the scheduler specifying the desired benchmarks*.json file, this template, and benchmarks/output to automatically overwrite the current pipeline.
-# - Ex. python ./scripts/crank-scheduler/main.py --config ./build/benchmarks_ci.json --template ./build/benchmarks.template.liquid --yaml-output ./build
+# - The file benchmarks.matrix.yml defines how each job is run in parallel
+# - Convert its content to json using https://jsonformatter.org/yaml-to-json
+# - Use the template in benchmarks.template.liquid and the converted json using https://liquidjs.com/playground.html
+# - Update this file with the result of the template generation
 
 trigger: none
 pr: none
@@ -43,7 +42,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
       
 - job: Containers_Intel_Lin
   displayName: 1- Containers Intel Lin
@@ -57,7 +56,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
       
 - job: Blazor_Intel_Perflin
   displayName: 1- Blazor Intel Perflin
@@ -71,7 +70,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-perflin-app --profile intel-perfload-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-perflin-app --profile intel-perfload-load "
       
 - job: HttpClient_Gold_Win
   displayName: 1- HttpClient Gold Win
@@ -85,7 +84,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load "
       
 # GROUP 2
 
@@ -101,7 +100,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
       
 - job: PGO_Intel_Lin
   displayName: 2- PGO Intel Lin
@@ -115,7 +114,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
       
 - job: HttpClient_Intel_Win
   displayName: 2- HttpClient Intel Win
@@ -129,7 +128,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load "
       
 - job: Baselines_Gold_Win
   displayName: 2- Baselines Gold Win
@@ -143,7 +142,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load "
       
 # GROUP 3
 
@@ -159,7 +158,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
       
 - job: Baselines_Database_Intel_Lin
   displayName: 3- Baselines Database Intel Lin
@@ -173,7 +172,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
       
 - job: Baselines_Intel_Win
   displayName: 3- Baselines Intel Win
@@ -187,7 +186,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load "
       
 - job: Baselines_Amd_Lin2
   displayName: 3- Baselines Amd Lin2
@@ -201,7 +200,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile amd-lin2-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile amd-lin2-app --profile gold-load2-load "
       
 # GROUP 4
 
@@ -217,7 +216,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load --profile gold-db-db "
       
 - job: Baselines_Database_Intel_Win
   displayName: 4- Baselines Database Intel Win
@@ -231,7 +230,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load --profile intel-db-db "
       
 - job: Blazor_Gold_Lin
   displayName: 4- Blazor Gold Lin
@@ -245,7 +244,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load "
       
 - job: Blazor_Intel_Lin
   displayName: 4- Blazor Intel Lin
@@ -259,7 +258,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load "
       
 # GROUP 5
 
@@ -275,7 +274,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load "
       
 - job: SslStream_Intel_Lin
   displayName: 5- SslStream Intel Lin
@@ -289,7 +288,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load "
       
 - job: SignalR_Gold_Win
   displayName: 5- SignalR Gold Win
@@ -303,7 +302,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load "
       
 - job: MVC_Intel_Win
   displayName: 5- MVC Intel Win
@@ -317,7 +316,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load --profile intel-db-db "
       
 # GROUP 6
 
@@ -333,7 +332,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
       
 - job: Frameworks_Database_Intel_Lin
   displayName: 6- Frameworks Database Intel Lin
@@ -347,7 +346,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
       
 - job: Trends_Gold_Win
   displayName: 6- Trends Gold Win
@@ -361,7 +360,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load "
       
 - job: EF_Core_Intel_Win
   displayName: 6- EF Core Intel Win
@@ -375,7 +374,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load "
       
 # GROUP 7
 
@@ -391,7 +390,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load --profile gold-db-db "
       
 - job: MVC_Intel_Lin
   displayName: 7- MVC Intel Lin
@@ -405,7 +404,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load --profile intel-db-db "
       
 - job: Trends_Amd_Lin2
   displayName: 7- Trends Amd Lin2
@@ -419,7 +418,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile amd-lin2-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile amd-lin2-app --profile gold-load2-load "
       
 - job: GC_Gold_Win
   displayName: 7- GC Gold Win
@@ -433,7 +432,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app "
       
 # GROUP 8
 
@@ -449,7 +448,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load --profile gold-db-db "
       
 - job: Trends_Gold_Lin
   displayName: 8- Trends Gold Lin
@@ -463,7 +462,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load "
       
 - job: Trends_Intel_Lin
   displayName: 8- Trends Intel Lin
@@ -477,7 +476,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load "
       
 - job: Trends_Database_Intel_Win
   displayName: 8- Trends Database Intel Win
@@ -491,7 +490,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load --profile intel-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load --profile intel-db-db "
       
 # GROUP 9
 
@@ -507,7 +506,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile amd-lin2-app --profile gold-load-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile amd-lin2-app --profile gold-load-load --profile gold-db-db "
       
 - job: GC_Gold_Lin
   displayName: 9- GC Gold Lin
@@ -521,7 +520,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app "
       
 - job: GC_Intel_Lin
   displayName: 9- GC Intel Lin
@@ -535,7 +534,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app "
       
 - job: WebSockets_Gold_Win
   displayName: 9- WebSockets Gold Win
@@ -549,7 +548,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load "
       
 # GROUP 10
 
@@ -565,7 +564,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-win-app --profile gold-load2-load --profile gold-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-win-app --profile gold-load2-load --profile gold-db-db "
       
 - job: Single_File_Gold_Lin
   displayName: 10- Single File Gold Lin
@@ -579,7 +578,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load "
       
 - job: Single_File_Intel_Lin
   displayName: 10- Single File Intel Lin
@@ -593,7 +592,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load "
       
 - job: Crossgen_Intel_Win
   displayName: 10- Crossgen Intel Win
@@ -607,7 +606,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app --profile intel-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app --profile intel-load2-load "
       
 # GROUP 11
 
@@ -623,7 +622,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app --profile gold-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app --profile gold-load-load "
       
 - job: Crossgen_Intel_Lin
   displayName: 11- Crossgen Intel Lin
@@ -637,7 +636,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app --profile intel-load-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app --profile intel-load-load "
       
 - job: Crossgen_Amd_Lin2
   displayName: 11- Crossgen Amd Lin2
@@ -651,7 +650,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine3
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile amd-lin2-app --profile gold-load2-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile amd-lin2-app --profile gold-load2-load "
       
 - job: Build_Intel_Win
   displayName: 11- Build Intel Win
@@ -665,7 +664,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: mono
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-win-app "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-win-app "
       
 # GROUP 12
 
@@ -681,7 +680,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine1
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile gold-lin-app "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile gold-lin-app "
       
 - job: Build_Intel_Lin
   displayName: 12- Build Intel Lin
@@ -695,5 +694,5 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: citrine2
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile intel-lin-app "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile intel-lin-app "
       

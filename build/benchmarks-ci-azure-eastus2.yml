@@ -42,7 +42,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 2
 
@@ -58,7 +58,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 3
 
@@ -74,7 +74,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 4
 
@@ -90,7 +90,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 5
 
@@ -106,7 +106,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load "
       
 # GROUP 6
 
@@ -122,7 +122,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load "
       
 # GROUP 7
 
@@ -138,7 +138,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 8
 
@@ -154,7 +154,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 9
 
@@ -170,7 +170,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load "
       
 # GROUP 10
 
@@ -186,7 +186,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load "
       
 # GROUP 11
 
@@ -202,7 +202,7 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
 # GROUP 12
 
@@ -218,5 +218,5 @@ jobs:
       connection: ASPNET Benchmarks Service Bus
       serviceBusQueueName: cobaltcloud
       serviceBusNamespace: aspnetbenchmarks
-      arguments: "$(ciProfile) --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
+  arguments: "--config https://raw.githubusercontent.com/aspnet/Benchmarks/main/build/ci.profile.yml --profile cobalt-cloud-lin-server-azure-linux3-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db "
       
