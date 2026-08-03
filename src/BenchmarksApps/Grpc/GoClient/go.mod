@@ -1,8 +1,7 @@
 module github.com/grpc/grpc-dotnet
 
 go 1.23.0
-
-toolchain go1.23.7
+toolchain go1.24.1
 
 require (
 	google.golang.org/grpc v1.65.0
