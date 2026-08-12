@@ -32,6 +32,8 @@ param(
 
     [switch]$ParallelHosts,
 
+    [switch]$UseRelay,
+
     [switch]$DryRun,
 
     [switch]$SkipRemoteRefCheck
@@ -78,14 +80,31 @@ if (-not $DryRun -and -not $SkipRemoteRefCheck -and $BenchmarksRef -match "^[0-9
     Write-Warning "A commit SHA cannot be fully verified with ls-remote unless it is a ref tip. Crank will verify that '$BenchmarksRef' is reachable."
 }
 
-$hosts = @{
-    "gold-lin" = [pscustomobject]@{
-        ProfilePath = Join-Path $repoRoot "build\ci.profile.yml"
-        Profiles = @("gold-lin-app", "gold-load-load", "gold-db-db")
+$hosts = if ($UseRelay) {
+    @{
+        "gold-lin" = [pscustomobject]@{
+            ProfilePath = Join-Path $repoRoot "scenarios\aspnet.profiles.yml"
+            Profiles = @("aspnet-gold-lin-relay")
+            Arguments = @("--relay")
+        }
+        "cobalt-cloud-lin" = [pscustomobject]@{
+            ProfilePath = Join-Path $repoRoot "build\azure.profile.yml"
+            Profiles = @("cobalt-cloud-lin-relay")
+            Arguments = @("--relay")
+        }
     }
-    "cobalt-cloud-lin" = [pscustomobject]@{
-        ProfilePath = Join-Path $repoRoot "build\azure.profile.yml"
-        Profiles = @("cobalt-cloud-lin-server-app", "cobalt-cloud-lin-client-load", "cobalt-cloud-lin-db-db")
+} else {
+    @{
+        "gold-lin" = [pscustomobject]@{
+            ProfilePath = Join-Path $repoRoot "build\ci.profile.yml"
+            Profiles = @("gold-lin-app", "gold-load-load", "gold-db-db")
+            Arguments = @()
+        }
+        "cobalt-cloud-lin" = [pscustomobject]@{
+            ProfilePath = Join-Path $repoRoot "build\azure.profile.yml"
+            Profiles = @("cobalt-cloud-lin-server-app", "cobalt-cloud-lin-client-load", "cobalt-cloud-lin-db-db")
+            Arguments = @()
+        }
     }
 }
 
@@ -128,17 +147,20 @@ $selectedHosts = if ($TargetHost -eq "both") { @("gold-lin", "cobalt-cloud-lin")
 if ($ParallelHosts -and $selectedHosts.Count -gt 1) {
     $jobs = foreach ($hostName in $selectedHosts) {
         Start-Job -Name "container-comparison-$hostName" -ScriptBlock {
-            param($ScriptPath, $RunMode, $TargetHost, $Repository, $Ref, $Output, $SessionName, $Executable, $IsDryRun, $SkipCheck)
-            & $ScriptPath -Mode $RunMode -TargetHost $TargetHost -BenchmarksRepository $Repository -BenchmarksRef $Ref -OutputDirectory $Output -Session $SessionName -CrankPath $Executable -DryRun:$IsDryRun -SkipRemoteRefCheck:$SkipCheck
-        } -ArgumentList $PSCommandPath, $Mode, $hostName, $BenchmarksRepository, $BenchmarksRef, $OutputDirectory, $Session, $CrankPath, $DryRun.IsPresent, $SkipRemoteRefCheck.IsPresent
+            param($ScriptPath, $RunMode, $TargetHost, $Repository, $Ref, $Output, $SessionName, $Executable, $IsRelay, $IsDryRun, $SkipCheck)
+            & $ScriptPath -Mode $RunMode -TargetHost $TargetHost -BenchmarksRepository $Repository -BenchmarksRef $Ref -OutputDirectory $Output -Session $SessionName -CrankPath $Executable -UseRelay:$IsRelay -DryRun:$IsDryRun -SkipRemoteRefCheck:$SkipCheck
+        } -ArgumentList $PSCommandPath, $Mode, $hostName, $BenchmarksRepository, $BenchmarksRef, $OutputDirectory, $Session, $CrankPath, $UseRelay.IsPresent, $DryRun.IsPresent, $SkipRemoteRefCheck.IsPresent
     }
 
     $jobs | Wait-Job | Out-Null
-    $jobs | Receive-Job
     $failedJobs = @($jobs | Where-Object State -ne "Completed")
+    $failedJobNames = @($failedJobs | ForEach-Object Name)
+    foreach ($job in $jobs) {
+        Receive-Job -Job $job -ErrorAction Continue
+    }
     $jobs | Remove-Job
     if ($failedJobs.Count -gt 0) {
-        throw "One or more host runs failed: $($failedJobs.Name -join ', ')"
+        throw "One or more host runs failed: $($failedJobNames -join ', ')"
     }
     return
 }
@@ -179,6 +201,8 @@ foreach ($hostName in $selectedHosts) {
                 foreach ($profile in $hostConfig.Profiles) {
                     $arguments += @("--profile", $profile)
                 }
+
+                $arguments += $hostConfig.Arguments
 
                 if ($scenario.IsAspNet) {
                     $arguments += @(
