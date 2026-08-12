@@ -88,7 +88,7 @@ $hosts = if ($UseRelay) {
             Arguments = @("--relay")
         }
         "cobalt-cloud-lin" = [pscustomobject]@{
-            ProfilePath = Join-Path $repoRoot "build\azure.profile.yml"
+            ProfilePath = Join-Path $repoRoot "scenarios\container-comparison.profiles.yml"
             Profiles = @("cobalt-cloud-lin-relay")
             Arguments = @("--relay")
         }

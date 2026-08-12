@@ -31,6 +31,6 @@ The ASP.NET container is built by the remote application agent, so its repositor
   -BenchmarksRef owner/container-comparison
 ```
 
-Relay mode passes Crank's `--relay` option. Gold loads `scenarios/aspnet.profiles.yml` with `aspnet-gold-lin-relay`, which maps application/load/db to `goldlin`, `goldload`, and `golddb`. cobalt loads `build/azure.profile.yml` with `cobalt-cloud-lin-relay`, which maps those roles to `cobaltcloudlinserver`, `cobaltcloudlinclient`, and `cobaltcloudlindb`. This intentionally uses the standard cobalt-cloud-lin server rather than the Azure Linux 3 relay.
+Relay mode passes Crank's `--relay` option. Gold loads `scenarios/aspnet.profiles.yml` with `aspnet-gold-lin-relay`, which maps application/load/db to `goldlin`, `goldload`, and `golddb`. cobalt loads the focused `scenarios/container-comparison.profiles.yml` with `cobalt-cloud-lin-relay`, which maps those roles to `cobaltcloudlinserver`, `cobaltcloudlinclient`, and `cobaltcloudlindb` and uses the current `10.2.2.*` private addresses proven by the local Azure VM scaling tests. This intentionally uses the standard cobalt-cloud-lin server rather than the Azure Linux 3 relay.
 
 Direct mode keeps the original profile wiring: Gold loads `build/ci.profile.yml` with `gold-lin-app`, `gold-load-load`, and `gold-db-db`; cobalt loads `build/azure.profile.yml` with `cobalt-cloud-lin-server-app`, `cobalt-cloud-lin-client-load`, and `cobalt-cloud-lin-db-db`.
