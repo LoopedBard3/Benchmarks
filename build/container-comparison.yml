@@ -1,0 +1,68 @@
+trigger: none
+pr: none
+
+parameters:
+- name: runMode
+  displayName: Run mode
+  type: string
+  default: preflight
+  values:
+  - preflight
+  - full
+- name: benchmarksRepository
+  displayName: Git repository used to build the ASP.NET container
+  type: string
+  default: https://github.com/LoopedBard3/Benchmarks.git
+- name: benchmarksRef
+  displayName: Git branch or commit used to build the ASP.NET container
+  type: string
+  default: loopedbard3-container-comparison-harness
+- name: rawBaseUrl
+  displayName: Raw URL root containing this harness
+  type: string
+  default: https://raw.githubusercontent.com/LoopedBard3/Benchmarks/loopedbard3-container-comparison-harness
+
+variables:
+- name: session
+  value: $(Build.BuildNumber)
+- name: buildId
+  value: $(Build.BuildId)
+- name: buildNumber
+  value: $(Build.BuildNumber)
+- name: benchmarksRepository
+  value: ${{ parameters.benchmarksRepository }}
+- name: benchmarksRef
+  value: ${{ parameters.benchmarksRef }}
+
+jobs:
+- job: Container_comparison_gold_lin
+  displayName: Container comparison - Intel Gold Linux
+  pool: server
+  timeoutInMinutes: 0
+  dependsOn: []
+  steps:
+  - template: container-comparison-scenarios.yml
+    parameters:
+      runMode: ${{ parameters.runMode }}
+      connection: ASPNET Benchmarks Service Bus
+      serviceBusQueueName: citrine1
+      serviceBusNamespace: aspnetbenchmarks
+      configUrl: ${{ format('{0}/scenarios/container-comparison.benchmarks.yml', parameters.rawBaseUrl) }}
+      profileUrl: ${{ format('{0}/build/ci.profile.yml', parameters.rawBaseUrl) }}
+      hostArguments: --profile gold-lin-app --profile gold-load-load --profile gold-db-db
+
+- job: Container_comparison_cobalt_cloud_lin
+  displayName: Container comparison - cobalt-cloud-lin Azure VM
+  pool: server
+  timeoutInMinutes: 0
+  dependsOn: []
+  steps:
+  - template: container-comparison-scenarios.yml
+    parameters:
+      runMode: ${{ parameters.runMode }}
+      connection: ASPNET Benchmarks Service Bus
+      serviceBusQueueName: azure
+      serviceBusNamespace: aspnetbenchmarks
+      configUrl: ${{ format('{0}/scenarios/container-comparison.benchmarks.yml', parameters.rawBaseUrl) }}
+      profileUrl: ${{ format('{0}/build/azure.profile.yml', parameters.rawBaseUrl) }}
+      hostArguments: --profile cobalt-cloud-lin-server-app --profile cobalt-cloud-lin-client-load --profile cobalt-cloud-lin-db-db

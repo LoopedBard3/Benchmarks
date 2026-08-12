@@ -1,0 +1,131 @@
+imports:
+  - https://raw.githubusercontent.com/dotnet/crank/main/src/Microsoft.Crank.Jobs.Wrk/wrk.yml
+  - https://raw.githubusercontent.com/dotnet/crank/main/src/Microsoft.Crank.Jobs.Bombardier/bombardier.yml
+
+jobs:
+  aspnet:
+    variables:
+      protocol: http
+      server: Kestrel
+      transport: Sockets
+      scenario: json
+      serverPort: 8080
+      databaseCmd: ""
+    source:
+      repository: https://github.com/LoopedBard3/Benchmarks.git
+      branchOrCommit: loopedbard3-container-comparison-harness
+      dockerFile: docker/container-comparison/Middleware-net11.dockerfile
+      dockerImageName: container_comparison_aspnet
+      dockerContextDirectory: .
+      dockerCommand: "--nonInteractive true --scenarios {{scenario}} --urls {{protocol}}://[*]:{{serverPort}} --server {{server}} --kestrelTransport {{transport}} --protocol {{protocol}} {{databaseCmd}}"
+    readyStateText: Application started.
+    environmentVariables:
+      database: PostgreSQL
+      connectionString: '"Server={{databaseServer}};Database=hello_world;User Id=benchmarkdbuser;******;Maximum Pool Size=256;NoResetOnClose=true;Enlist=false;Max Auto Prepare=4"'
+    noClean: true
+
+  fasthttp:
+    source:
+      repository: https://github.com/TechEmpower/FrameworkBenchmarks.git
+      branchOrCommit: 57d92fbec6f8fd7431bc77326dd0484e60c96e20
+      dockerFile: frameworks/Go/fasthttp/fasthttp-prefork.dockerfile
+      dockerImageName: container_comparison_fasthttp
+      dockerContextDirectory: frameworks/Go/fasthttp/
+    arguments: --add-host="tfb-database:{{databaseServer}}"
+    port: 8080
+    noClean: true
+
+  xitca:
+    source:
+      repository: https://github.com/TechEmpower/FrameworkBenchmarks.git
+      branchOrCommit: 57d92fbec6f8fd7431bc77326dd0484e60c96e20
+      dockerFile: frameworks/Rust/xitca-web/xitca-web.dockerfile
+      dockerImageName: container_comparison_xitca
+      dockerContextDirectory: frameworks/Rust/xitca-web/
+    arguments: --add-host="tfb-database:{{databaseServer}}"
+    port: 8080
+    noClean: true
+
+  postgresql:
+    source:
+      repository: https://github.com/TechEmpower/FrameworkBenchmarks.git
+      branchOrCommit: 57d92fbec6f8fd7431bc77326dd0484e60c96e20
+      dockerFile: toolset/databases/postgres/postgres.dockerfile
+      dockerImageName: container_comparison_postgres
+      dockerContextDirectory: toolset/databases/postgres
+    readyStateText: ready to accept connections
+    noClean: true
+
+scenarios:
+  json_aspnet:
+    application:
+      job: aspnet
+      variables:
+        scenario: json
+    load:
+      job: wrk
+      variables:
+        presetHeaders: json
+        path: /json
+        serverPort: 8080
+
+  fortunes_aspnet:
+    db:
+      job: postgresql
+    application:
+      job: aspnet
+      variables:
+        scenario: dbfortunesraw
+        databaseCmd: --database PostgreSQL
+    load:
+      job: wrk
+      variables:
+        presetHeaders: html
+        path: /fortunes/raw
+        serverPort: 8080
+
+  json_fasthttp:
+    db:
+      job: postgresql
+    application:
+      job: fasthttp
+    load:
+      job: wrk
+      variables:
+        presetHeaders: json
+        path: /json
+        serverPort: 8080
+
+  fortunes_fasthttp:
+    db:
+      job: postgresql
+    application:
+      job: fasthttp
+    load:
+      job: wrk
+      variables:
+        presetHeaders: html
+        path: /fortunes
+        serverPort: 8080
+
+  json_xitca:
+    application:
+      job: xitca
+    load:
+      job: wrk
+      variables:
+        presetHeaders: json
+        path: /json
+        serverPort: 8080
+
+  fortunes_xitca:
+    db:
+      job: postgresql
+    application:
+      job: xitca
+    load:
+      job: wrk
+      variables:
+        presetHeaders: html
+        path: /fortunes
+        serverPort: 8080
