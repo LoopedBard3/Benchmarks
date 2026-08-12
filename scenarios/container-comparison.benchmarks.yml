@@ -21,7 +21,7 @@ jobs:
     readyStateText: Application started.
     environmentVariables:
       database: PostgreSQL
-      connectionString: '"Server={{databaseServer}};Database=hello_world;User Id=benchmarkdbuser;******;Maximum Pool Size=256;NoResetOnClose=true;Enlist=false;Max Auto Prepare=4"'
+      connectionString: '"Server={{databaseServer}};Database=hello_world;User Id=benchmarkdbuser;Password=benchmarkdbpass;Maximum Pool Size=256;NoResetOnClose=true;Enlist=false;Max Auto Prepare=4"'
     noClean: true
 
   fasthttp:
