@@ -1,29 +1,34 @@
 # Manual container comparison
 
-This harness compares .NET 11 ASP.NET, TechEmpower FastHTTP, and Rust xitca-web for JSON and Fortunes. It is isolated from the generated scheduled pipelines and has `trigger: none` and `pr: none`.
+This local-only harness compares .NET 11 ASP.NET, TechEmpower FastHTTP, and Rust xitca-web for JSON and Fortunes. It invokes Crank directly from this computer and does not use Azure Pipelines or Service Bus scheduling.
 
 ## Matrix
 
-`full` runs 6 scenarios x 8 sizes x 3 rates: 144 runs per host and 288 total. `preflight` runs all 6 scenarios at 1 CPU quota / 512 MB and 1000 RPS: 6 runs per host and 12 total. The Intel Gold Linux and cobalt-cloud-lin jobs have no dependency on each other, so their service bus queues can process them in parallel.
+`full` runs 6 scenarios x 8 sizes x 3 rates: 144 runs per host and 288 total. `preflight` runs all 6 scenarios at 1 CPU quota / 512 MB and 1000 RPS: 6 runs per host and 12 total.
 
 The unlimited size uses each host's available core count, so it is not a like-for-like CPU comparison. Fortunes also crosses different application, load, and database machines on each pod, so network and database-host differences remain part of those results.
 
-## Queue manually
+## Run locally
 
-The Azure agents and remote Crank agents must download both the YAML configuration and the ASP.NET source. A branch that exists only in a local worktree cannot run remotely.
+Install the Crank controller and connect to the network or VPN that can reach the direct agent endpoints in `build/ci.profile.yml` and `build/azure.profile.yml`:
 
-1. Push this branch (or an equivalent commit) to a GitHub repository that the agents can read.
-2. In Azure Pipelines, create or select a pipeline whose YAML path is `build/container-comparison.yml` on that branch.
-3. Choose **Run pipeline**, select the same branch, and leave `runMode` as `preflight`.
-4. Set `benchmarksRepository` to that repository's clone URL, `benchmarksRef` to the pushed branch or commit, and `rawBaseUrl` to the matching raw-content root without a trailing slash.
-5. Queue the 12-run preflight. After all scenarios succeed on both hosts, queue again with `runMode: full` for the 288-run matrix.
-
-For example, a pushed branch named `owner/container-comparison` in `owner/Benchmarks` uses:
-
-```text
-benchmarksRepository = https://github.com/owner/Benchmarks.git
-benchmarksRef        = owner/container-comparison
-rawBaseUrl           = https://raw.githubusercontent.com/owner/Benchmarks/owner/container-comparison
+```powershell
+dotnet tool install Microsoft.Crank.Controller --version "0.2.0-*" --global
+.\scripts\run-container-comparison.ps1 -Mode preflight -TargetHost both -DryRun
+.\scripts\run-container-comparison.ps1 -Mode preflight -TargetHost both -ParallelHosts
+.\scripts\run-container-comparison.ps1 -Mode full -TargetHost both -ParallelHosts
 ```
 
-The Gold job loads `build/ci.profile.yml` and uses `citrine1` with `gold-lin-app`, `gold-load-load`, and `gold-db-db`. The cobalt job loads `build/azure.profile.yml` and uses `azure` with `cobalt-cloud-lin-server-app`, `cobalt-cloud-lin-client-load`, and `cobalt-cloud-lin-db-db`.
+Run one host by setting `-TargetHost gold-lin` or `-TargetHost cobalt-cloud-lin`. Omit `-ParallelHosts` to run selected hosts sequentially. Results and a command manifest are written under `artifacts/container-comparison/<timestamp>` by default.
+
+The ASP.NET container is built by the remote application agent, so its repository and ref must be remotely accessible even though the Crank configuration is local. A branch that exists only in this worktree cannot run. Push it first, then override the defaults when needed:
+
+```powershell
+.\scripts\run-container-comparison.ps1 `
+  -Mode preflight `
+  -TargetHost both `
+  -BenchmarksRepository https://github.com/owner/Benchmarks.git `
+  -BenchmarksRef owner/container-comparison
+```
+
+The Gold run loads `build/ci.profile.yml` with `gold-lin-app`, `gold-load-load`, and `gold-db-db`. The cobalt run loads `build/azure.profile.yml` with `cobalt-cloud-lin-server-app`, `cobalt-cloud-lin-client-load`, and `cobalt-cloud-lin-db-db`.
