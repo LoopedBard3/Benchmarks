@@ -27,7 +27,7 @@ jobs:
   fasthttp:
     source:
       repository: https://github.com/TechEmpower/FrameworkBenchmarks.git
-      branchOrCommit: 57d92fbec6f8fd7431bc77326dd0484e60c96e20
+      branchOrCommit: "#57d92fbec6f8fd7431bc77326dd0484e60c96e20"
       dockerFile: frameworks/Go/fasthttp/fasthttp-prefork.dockerfile
       dockerImageName: container_comparison_fasthttp
       dockerContextDirectory: frameworks/Go/fasthttp/
@@ -38,7 +38,7 @@ jobs:
   xitca:
     source:
       repository: https://github.com/TechEmpower/FrameworkBenchmarks.git
-      branchOrCommit: 57d92fbec6f8fd7431bc77326dd0484e60c96e20
+      branchOrCommit: "#57d92fbec6f8fd7431bc77326dd0484e60c96e20"
       dockerFile: frameworks/Rust/xitca-web/xitca-web.dockerfile
       dockerImageName: container_comparison_xitca
       dockerContextDirectory: frameworks/Rust/xitca-web/
@@ -49,7 +49,7 @@ jobs:
   postgresql:
     source:
       repository: https://github.com/TechEmpower/FrameworkBenchmarks.git
-      branchOrCommit: 57d92fbec6f8fd7431bc77326dd0484e60c96e20
+      branchOrCommit: "#57d92fbec6f8fd7431bc77326dd0484e60c96e20"
       dockerFile: toolset/databases/postgres/postgres.dockerfile
       dockerImageName: container_comparison_postgres
       dockerContextDirectory: toolset/databases/postgres
