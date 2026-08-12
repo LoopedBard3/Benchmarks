@@ -12,4 +12,4 @@ FROM mcr.microsoft.com/dotnet/nightly/aspnet:11.0-preview AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
 
-ENTRYPOINT ["dotnet", "Benchmarks.dll"]
+ENTRYPOINT ["sh", "-c", "connectionString=\"${connectionString#\\\"}\"; connectionString=\"${connectionString%\\\"}\"; export connectionString; exec dotnet Benchmarks.dll \"$@\"", "--"]
