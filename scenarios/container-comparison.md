@@ -16,10 +16,20 @@ Install the Crank controller. Use `-UseRelay` when this computer cannot reach th
 dotnet tool install Microsoft.Crank.Controller --version "0.2.0-*" --global
 .\scripts\run-container-comparison.ps1 -Mode preflight -TargetHost both -UseRelay -DryRun
 .\scripts\run-container-comparison.ps1 -Mode preflight -TargetHost both -UseRelay -ParallelHosts
-.\scripts\run-container-comparison.ps1 -Mode full -TargetHost both -UseRelay -ParallelHosts
+$outputDirectory = Join-Path $PWD "artifacts\container-comparison\full-run"
+.\scripts\run-container-comparison.ps1 -Mode full -TargetHost both -UseRelay -ParallelHosts -OutputDirectory $outputDirectory
 ```
 
 Run one host by setting `-TargetHost gold-lin` or `-TargetHost cobalt-cloud-lin`. Omit `-ParallelHosts` to run selected hosts sequentially. Omit `-UseRelay` to use the direct endpoints; direct mode requires access to the private network or VPN. Results and a command manifest are written under `artifacts/container-comparison/<timestamp>` by default.
+
+If a full run stops, resume it with the same explicit output directory:
+
+```powershell
+$outputDirectory = Join-Path $PWD "artifacts\container-comparison\full-run"
+.\scripts\run-container-comparison.ps1 -Mode full -TargetHost both -UseRelay -ParallelHosts -OutputDirectory $outputDirectory -Resume
+```
+
+`-Resume` requires an existing, explicitly supplied `-OutputDirectory`. It regenerates the complete deterministic manifest, skips only result files that contain valid JSON with a top-level `returnCode` of `0`, and retries missing, malformed, incomplete, or failed results. A newly attempted failure still stops the run immediately.
 
 The ASP.NET container is built by the remote application agent, so its repository and ref must be remotely accessible even though the Crank configuration is local. A branch that exists only in this worktree cannot run. Push it first, then override the defaults when needed:
 

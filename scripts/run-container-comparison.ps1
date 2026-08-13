@@ -10,6 +10,9 @@ Runs the manual container comparison matrix against the remote benchmark agents.
 
 .EXAMPLE
 .\scripts\run-container-comparison.ps1 -Mode full -TargetHost gold-lin
+
+.EXAMPLE
+.\scripts\run-container-comparison.ps1 -Mode full -TargetHost both -UseRelay -ParallelHosts -OutputDirectory .\artifacts\container-comparison\full-run -Resume
 #>
 
 [CmdletBinding()]
@@ -36,6 +39,8 @@ param(
 
     [switch]$DryRun,
 
+    [switch]$Resume,
+
     [switch]$SkipRemoteRefCheck
 )
 
@@ -53,9 +58,18 @@ if ([string]::IsNullOrWhiteSpace($BenchmarksRef)) {
     }
 }
 
+if ($Resume -and [string]::IsNullOrWhiteSpace($OutputDirectory)) {
+    throw "-Resume requires an explicit -OutputDirectory that points to an existing run directory."
+}
+
+if ($Resume -and -not (Test-Path $OutputDirectory -PathType Container)) {
+    throw "Resume output directory does not exist: $OutputDirectory"
+}
+
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
     $OutputDirectory = Join-Path $repoRoot "artifacts\container-comparison\$timestamp"
 }
+$OutputDirectory = [System.IO.Path]::GetFullPath($OutputDirectory)
 
 if ([string]::IsNullOrWhiteSpace($Session)) {
     $Session = "container-comparison-$timestamp"
@@ -147,9 +161,9 @@ $selectedHosts = if ($TargetHost -eq "both") { @("gold-lin", "cobalt-cloud-lin")
 if ($ParallelHosts -and $selectedHosts.Count -gt 1) {
     $jobs = foreach ($hostName in $selectedHosts) {
         Start-Job -Name "container-comparison-$hostName" -ScriptBlock {
-            param($ScriptPath, $RunMode, $TargetHost, $Repository, $Ref, $Output, $SessionName, $Executable, $IsRelay, $IsDryRun, $SkipCheck)
-            & $ScriptPath -Mode $RunMode -TargetHost $TargetHost -BenchmarksRepository $Repository -BenchmarksRef $Ref -OutputDirectory $Output -Session $SessionName -CrankPath $Executable -UseRelay:$IsRelay -DryRun:$IsDryRun -SkipRemoteRefCheck:$SkipCheck
-        } -ArgumentList $PSCommandPath, $Mode, $hostName, $BenchmarksRepository, $BenchmarksRef, $OutputDirectory, $Session, $CrankPath, $UseRelay.IsPresent, $DryRun.IsPresent, $SkipRemoteRefCheck.IsPresent
+            param($ScriptPath, $RunMode, $TargetHost, $Repository, $Ref, $Output, $SessionName, $Executable, $IsRelay, $IsDryRun, $IsResume, $SkipCheck)
+            & $ScriptPath -Mode $RunMode -TargetHost $TargetHost -BenchmarksRepository $Repository -BenchmarksRef $Ref -OutputDirectory $Output -Session $SessionName -CrankPath $Executable -UseRelay:$IsRelay -DryRun:$IsDryRun -Resume:$IsResume -SkipRemoteRefCheck:$SkipCheck
+        } -ArgumentList $PSCommandPath, $Mode, $hostName, $BenchmarksRepository, $BenchmarksRef, $OutputDirectory, $Session, $CrankPath, $UseRelay.IsPresent, $DryRun.IsPresent, $Resume.IsPresent, $SkipRemoteRefCheck.IsPresent
     }
 
     $jobs | Wait-Job | Out-Null
@@ -244,7 +258,45 @@ foreach ($hostName in $selectedHosts) {
     $plan | Select-Object Host, Scenario, Size, Rate, Result, Command | Export-Csv -NoTypeInformation -Path $manifestPath
     Write-Host "[$hostName] $Mode plan: $($plan.Count) runs. Manifest: $manifestPath"
 
+    $runsToExecute = [System.Collections.Generic.List[object]]::new()
+    $skippedCount = 0
     foreach ($run in $plan) {
+        if (-not $Resume) {
+            $runsToExecute.Add($run)
+            continue
+        }
+
+        $retryReason = $null
+        if (-not (Test-Path $run.Result -PathType Leaf)) {
+            $retryReason = "result file is missing"
+        } else {
+            try {
+                $existingResult = Get-Content $run.Result -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
+                if ($null -eq $existingResult) {
+                    $retryReason = "result JSON is empty"
+                } elseif ($null -eq $existingResult.PSObject.Properties["returnCode"]) {
+                    $retryReason = "result JSON has no top-level returnCode"
+                } elseif ($existingResult.PSObject.Properties["returnCode"].Value -ne 0) {
+                    $retryReason = "returnCode is $($existingResult.PSObject.Properties["returnCode"].Value)"
+                }
+            } catch {
+                $retryReason = "result JSON is malformed"
+            }
+        }
+
+        if ($null -eq $retryReason) {
+            $skippedCount++
+            Write-Host "[$hostName] Skipping $($run.Scenario) / $($run.Size) / $($run.Rate): returnCode is 0."
+            continue
+        }
+
+        Write-Host "[$hostName] Retrying $($run.Scenario) / $($run.Size) / $($run.Rate): $retryReason."
+        $runsToExecute.Add($run)
+    }
+
+    Write-Host "[$hostName] Completed/skipped: $skippedCount; remaining: $($runsToExecute.Count)."
+
+    foreach ($run in $runsToExecute) {
         Write-Host "[$hostName] $($run.Scenario) / $($run.Size) / $($run.Rate)"
         Write-Host $run.Command
 
