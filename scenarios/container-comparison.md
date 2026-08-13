@@ -6,6 +6,8 @@ This local-only harness compares .NET 11 ASP.NET, TechEmpower FastHTTP, and Rust
 
 `full` runs 6 scenarios x 8 sizes x 3 rates: 144 runs per host and 288 total. `preflight` runs all 6 scenarios at 1 CPU quota / 512 MB and 1000 RPS: 6 runs per host and 12 total.
 
+JSON scenarios are database-free. Fortunes scenarios use PostgreSQL and include the database host in the measurement topology.
+
 The unlimited size uses each host's available core count, so it is not a like-for-like CPU comparison. Fortunes also crosses different application, load, and database machines on each pod, so network and database-host differences remain part of those results.
 
 ## Run locally
