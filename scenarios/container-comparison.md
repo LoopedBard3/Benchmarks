@@ -33,6 +33,26 @@ $outputDirectory = Join-Path $PWD "artifacts\container-comparison\full-run"
 
 `-Resume` requires an existing, explicitly supplied `-OutputDirectory`. It regenerates the complete deterministic manifest, skips only result files that contain valid JSON with a top-level `returnCode` of `0`, and retries missing, malformed, incomplete, or failed results. A newly attempted failure still stops the run immediately.
 
+## Targeted FastHTTP GOMAXPROCS retest
+
+`-ScenarioFilter` selects one or more of the six scenario IDs without changing the default matrix. For example, this generates the 24-run full FastHTTP JSON matrix only:
+
+```powershell
+$normalizedOutput = Join-Path $PWD "artifacts\container-comparison\fasthttp-json-gomaxprocs"
+.\scripts\run-container-comparison.ps1 `
+  -Mode full `
+  -TargetHost gold-lin `
+  -UseRelay `
+  -ScenarioFilter json_fasthttp `
+  -NormalizeFastHttpGoMaxProcs `
+  -OutputDirectory $normalizedOutput `
+  -DryRun
+```
+
+`-NormalizeFastHttpGoMaxProcs` affects FastHTTP scenarios only. It sets integer `GOMAXPROCS` from the CPU entitlement: quotas 0.1, 0.25, 0.5, and 1 plus pinned 1 use `1`; quota 4 and pinned 4 use `4`; unlimited leaves `GOMAXPROCS` unset so Go keeps its default. Each affected command also records `fastHttpGoMaxProcs=<n|default>` as a Crank property, and the manifest records both the normalization switch and effective value.
+
+This is a modified comparison, not the pinned TechEmpower implementation's default runtime behavior. Normalized runs require an explicit, separate `-OutputDirectory`; do not reuse the baseline output root. Resume with the same options and normalized output directory. The runner refuses normalized resume when the existing manifest is absent, belongs to a baseline run, or otherwise differs from the regenerated normalized plan.
+
 The ASP.NET container is built by the remote application agent, so its repository and ref must be remotely accessible even though the Crank configuration is local. A branch that exists only in this worktree cannot run. Push it first, then override the defaults when needed:
 
 ```powershell
